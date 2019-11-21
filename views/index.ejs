@@ -2,8 +2,8 @@
 <html>
   <head>
     <title><%= title %></title>
-    <script language="javascript" src="/jquery/jquery.min.js"></script>
-    <script language="javascript" src="/js/bootstrap.min.js"></script>
+    <script rel="javascript" src="/jquery/jquery.min.js"></script>
+    <script rel="javascript" src="/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/stylesheets/style.css"/>
       <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -45,7 +45,11 @@
         <% for(property of json.properties){ %>
         <!-- Property Item -->
         <div class="col-md-6 col-lg-4">
-          <div class="property-item mx-auto" data-toggle="modal" data-target="#propertyModal<%= property.id %>">
+            <% if(property.isFeatured){ %>
+                <div class="property-item mx-auto shadow featured" data-toggle="modal" data-target="#propertyModal<%= property.id %>">
+            <% }else{ %>
+                <div class="property-item shadow mx-auto" data-toggle="modal" data-target="#propertyModal<%= property.id %>">
+            <% } %>
             <div class="property-item-caption d-flex align-items-center justify-content-center h-100 w-100">
               <div class="property-item-caption-content text-center text-white">
                 <i class="fas fa-plus fa-3x"></i>
@@ -53,7 +57,7 @@
             </div>
             <div>
                 <% if(property.isFeatured){ %>
-                    <div class="property-item text-uppercase text-center text-warning">
+                    <div class="property-item text-uppercase text-center featured text-warning">
                         <i class="fas fa-star"></i>Featured<i class="fas fa-star"></i>
                     </div>
                 <% } %>
