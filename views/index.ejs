@@ -2,10 +2,153 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script language="javascript" src="/jquery/jquery.min.js"></script>
+    <script language="javascript" src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+      <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <header class="masthead bg-primary text-white text-center">
+      <div class="container d-flex align-items-center flex-column">
+        <h1 class="masthead-heading text-uppercase mb-0"><%= title %></h1>
+        <h3>Welcome to <%= title %></p>
+    </div>
+  </header>
+    <% if(json.hasOwnProperty('error')){ %>
+        <h1 class="page-section-heading text-center text-uppercase text-secondary mb-0"><%= json.error %></h1>
+    <% }else{ %>
+         <section class="page-section location" id="location">
+            <div class="container">
+              <!-- Property Section Heading -->
+              <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"><%= json.location.city.country %></h2>
+                <h3 class="page-section-heading text-center text-uppercase text-secondary mb-0"><%= json.location.city.name %></h3>
+            </div>
+        </section>
+<!-- Property Section -->
+  <section class="page-section property" id="property">
+    <div class="container">
+
+      <!-- Property Section Heading -->
+      <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Properties</h2>
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon">
+                <i class="fas fa-hotel"></i>
+            </div>
+            <div class="divider-custom-line"></div>
+        </div>
+      <!-- Property Grid Items -->
+      <div class="row">
+        <% for(property of json.properties){ %>
+        <!-- Property Item -->
+        <div class="col-md-6 col-lg-4">
+          <div class="property-item mx-auto" data-toggle="modal" data-target="#propertyModal<%= property.id %>">
+            <div class="property-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+              <div class="property-item-caption-content text-center text-white">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <div>
+                <% if(property.isFeatured){ %>
+                    <div class="property-item text-uppercase text-center text-warning">
+                        <i class="fas fa-star"></i>Featured<i class="fas fa-star"></i>
+                    </div>
+                <% } %>
+                <h4 class="text-uppercase mb-4 text-center"><%= property.name %></h4>
+                <p class="lead mb-0 text-center"><%= property.type %></p>
+                <p class="lead mb-0 text-center">Night stay from &euro;<%= property.lowestPricePerNight.value %></p>
+                <p class="lead mb-0 text-center"><%= property.decimalRating %> out of 10</p>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <!-- /.row -->
+
+    </div>
+  </section>
+         <div class="divider-custom">
+             <div class="divider-custom-line"></div>
+             <div class="divider-custom-icon">
+                 <i class="fas fa-hotel"></i>
+             </div>
+             <div class="divider-custom-line"></div>
+         </div>
+         <!-- Footer -->
+         <footer class="footer text-center">
+             <div class="container">
+                 <div class="row">
+
+                     <!-- Footer Location -->
+                     <div class="col-lg-4 mb-5 mb-lg-0">
+                         <h4 class="text-uppercase mb-4">Name</h4>
+                         <p class="lead mb-0">Glen Connolly
+                     </div>
+
+                     <!-- Footer Social Icons -->
+                     <div class="col-lg-4 mb-5 mb-lg-0">
+                         <h4 class="text-uppercase mb-4">Around the Web</h4>
+                         <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/connollyglen93">
+                             <i class="fab fa-fw fa-github"></i>
+                         </a>
+                         <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/connollyglen/">
+                             <i class="fab fa-fw fa-linkedin-in"></i>
+                         </a>
+                     </div>
+
+                     <!-- Footer About Text -->
+                     <div class="col-lg-4">
+                         <h4 class="text-uppercase mb-4">Technical Test</h4>
+                         <p class="lead mb-0">This application is free to use, built solely for the purpose of applying for a job at
+                             <a href="https://www.hostelworld.com/">Hostelworld</a>.</p>
+                     </div>
+
+                 </div>
+             </div>
+         </footer>
+
+        <% for (property of json.properties){ %>
+         <div class="property-modal modal fade" id="propertyModal<%= property.id %>" tabindex="-1" role="dialog" aria-labelledby="propertyModal<%= property.id %>Label" aria-hidden="true">
+             <div class="modal-dialog modal-xl" role="document">
+                 <div class="modal-content">
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">
+                        <i class="fas fa-times"></i>
+                      </span>
+                     </button>
+                     <div class="modal-body text-center">
+                         <div class="container">
+                             <div class="row justify-content-center">
+                                 <div class="col-lg-8">
+                                     <!-- Property Modal - Title -->
+                                     <h2 class="property-modal-title text-secondary text-uppercase mb-0"><%= property.name %></h2>
+                                     <!-- Icon Divider -->
+                                     <div class="divider-custom">
+                                         <div class="divider-custom-line"></div>
+                                         <div class="divider-custom-icon">
+                                             <i class="fas fa-hotel"></i>
+                                         </div>
+                                         <div class="divider-custom-line"></div>
+                                     </div>
+                                     <!-- Property Modal - Image -->
+
+                                     <!-- Property Modal - Text -->
+                                     <p class="mb-5"><%= property.overview %></p>
+                                     <button class="btn btn-primary" href="#" data-dismiss="modal">
+                                         <i class="fas fa-times fa-fw"></i>
+                                         Close Window
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        <% } %>
+    <% } %>
   </body>
 </html>
